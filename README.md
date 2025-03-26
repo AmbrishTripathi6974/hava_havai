@@ -1,11 +1,11 @@
-# 🌟 ORU_Phones_Assignment
+# 🌟 HavaHavai_Assignment
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.4.4-blue?style=flat-square&logo=flutter&logoColor=white)  
 ![Build](https://img.shields.io/badge/Build-Passing-brightgreen?style=flat-square)  
 ![Figma](https://img.shields.io/badge/Design-Figma-red?style=flat-square&logo=figma&logoColor=white)  
 ![Firebase](https://img.shields.io/badge/Firebase-Notification-brightgreen?style=flat-square&logo=firebase)
 
-This **Assignment** is designed to evaluate your **Flutter development** skills and **problem-solving** abilities. The task closely resembles features from our **OruPhones app**
+This **Assignment** evaluates your **Flutter development** skills and **problem-solving** abilities. The task closely resembles features from our **API Services**
 
 ---  
 
@@ -22,7 +22,7 @@ Explore the meticulously crafted UI/UX on [Figma](https://www.figma.com/design/l
 ✔ **Verify OTP Screen** - Enter OTP & authenticate user.  
 ✔ **Confirm Name Screen** - Prompt new users to set a name before proceeding.  
 ✔ **State Management** - Use Flutter Bloc.
-✔ **Standalone & Bottom Sheet Support** - Authentication screens work both as full pages and bottom sheets.  
+✔ **Standalone & Bottom Sheet Support** - Authentication screens work as full pages and bottom sheets.  
 
 
 ---  
