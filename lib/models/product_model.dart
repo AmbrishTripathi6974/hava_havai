@@ -1,28 +1,3 @@
-class ProductModel {
-  final List<Product> products;
-  final int total;
-  final int skip;
-  final int limit;
-
-  ProductModel({
-    required this.products,
-    required this.total,
-    required this.skip,
-    required this.limit,
-  });
-
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
-    return ProductModel(
-      products: (json['products'] as List<dynamic>)
-          .map((e) => Product.fromJson(e))
-          .toList(),
-      total: json['total'] ?? 0,
-      skip: json['skip'] ?? 0,
-      limit: json['limit'] ?? 10,
-    );
-  }
-}
-
 class Product {
   final int id;
   final String title;
@@ -103,7 +78,37 @@ class Product {
       thumbnail: json['thumbnail'] ?? '',
     );
   }
+
+  // ✅ Convert Product object to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'category': category,
+      'price': price,
+      'discountPercentage': discountPercentage,
+      'rating': rating,
+      'stock': stock,
+      'tags': tags,
+      'brand': brand,
+      'sku': sku,
+      'weight': weight,
+      'dimensions': dimensions?.toJson(),
+      'warrantyInformation': warrantyInformation,
+      'shippingInformation': shippingInformation,
+      'availabilityStatus': availabilityStatus,
+      'reviews': reviews.map((r) => r.toJson()).toList(),
+      'returnPolicy': returnPolicy,
+      'minimumOrderQuantity': minimumOrderQuantity,
+      'meta': meta?.toJson(),
+      'images': images,
+      'thumbnail': thumbnail,
+    };
+  }
 }
+
+// ✅ Also add toJson methods for nested models
 
 class Dimensions {
   final double width;
@@ -118,6 +123,14 @@ class Dimensions {
       height: (json['height'] ?? 0).toDouble(),
       depth: (json['depth'] ?? 0).toDouble(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'width': width,
+      'height': height,
+      'depth': depth,
+    };
   }
 }
 
@@ -145,6 +158,16 @@ class Review {
       reviewerEmail: json['reviewerEmail'] ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'rating': rating,
+      'comment': comment,
+      'date': date,
+      'reviewerName': reviewerName,
+      'reviewerEmail': reviewerEmail,
+    };
+  }
 }
 
 class Meta {
@@ -167,5 +190,14 @@ class Meta {
       barcode: json['barcode'] ?? '',
       qrCode: json['qrCode'] ?? '',
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+      'barcode': barcode,
+      'qrCode': qrCode,
+    };
   }
 }
