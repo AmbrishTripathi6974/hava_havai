@@ -43,10 +43,19 @@ dependencies:
   cached_network_image: ^3.4.1
   path_provider: ^2.1.5
   sqflite: ^2.4.1
+  flutter_launcher_icons: ^0.14.3
+  rxdart: ^0.28.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+    
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/travel.png"
+  min_sdk_android: 21
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

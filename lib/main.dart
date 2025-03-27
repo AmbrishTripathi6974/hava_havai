@@ -8,7 +8,6 @@ import 'package:hava_havai/blocs/cart/cart_event.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // Ensures proper initialization
-  
   runApp(const MyApp());
 }
 
@@ -17,22 +16,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider(
-          create: (context) {
-            final cartBloc = CartBloc();
-            cartBloc.add(LoadCart()); // Loads cart initially
-            return cartBloc;
-          },
-        ),
-        BlocProvider(
-          create: (context) => ProductBloc(productRepository: ProductRepository()),
-        ),
+        RepositoryProvider(create: (context) => ProductRepository()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: const HomeScreen(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) {
+              final cartBloc = CartBloc();
+              cartBloc.add(LoadCart()); // Loads cart initially
+              return cartBloc;
+            },
+          ),
+          BlocProvider(
+            create: (context) => ProductBloc(
+              productRepository: context.read<ProductRepository>(),
+            ),
+          ),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: const HomeScreen(),
+        ),
       ),
     );
   }

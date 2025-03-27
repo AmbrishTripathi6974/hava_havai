@@ -13,31 +13,27 @@ class ShimmerLoadingGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return GridView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: isPaginating ? const NeverScrollableScrollPhysics() : const BouncingScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Ensures 2 items per row
-          childAspectRatio: 0.65, 
-          crossAxisSpacing: 10, // Spacing between columns
-          mainAxisSpacing: 10, // Spacing between rows
-        ),
-        itemCount: itemCount,
-        itemBuilder: (context, index) => _buildShimmerItem(),
+      shrinkWrap: true,
+      physics: isPaginating ? const NeverScrollableScrollPhysics() : const BouncingScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,  // 2 items per row
+        childAspectRatio: 0.65, // Aspect ratio matching real cards
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
       ),
-    );
-  }
-
-  Widget _buildShimmerItem() {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+      itemCount: itemCount, // Show 6 shimmer items
+      itemBuilder: (context, index) => Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          height: 180,  // Set a height
+          width: double.infinity,  // Make it fill the grid cell
         ),
       ),
     );

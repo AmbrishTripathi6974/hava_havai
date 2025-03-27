@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rxdart/rxdart.dart';
 import '../../models/product_model.dart';
 import '../../repositories/product_repository.dart';
 import 'product_event.dart';
@@ -11,24 +12,17 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   bool hasReachedMax = false;
 
   ProductBloc({required this.productRepository}) : super(ProductInitial()) {
-    on<LoadProducts>(_onLoadProducts);
+    on<LoadProducts>(_onLoadProducts, transformer: debounce(Duration(milliseconds: 300)));
   }
 
-  Future<void> _onLoadProducts(
-      LoadProducts event, Emitter<ProductState> emit) async {
-    if (state is ProductLoading || hasReachedMax) return; 
+  Future<void> _onLoadProducts(LoadProducts event, Emitter<ProductState> emit) async {
+    if (state is ProductLoading || hasReachedMax) return;
 
     final List<Product> existingProducts =
         state is ProductLoaded ? (state as ProductLoaded).products : [];
 
     if (page == 0 && existingProducts.isEmpty) {
       emit(ProductShimmer()); // ✅ Show shimmer only on first load
-    } else {
-      emit(ProductLoaded(
-        products: existingProducts,
-        hasReachedMax: hasReachedMax,
-        isPaginating: true, // ✅ Show shimmer only for pagination
-      ));
     }
 
     try {
@@ -42,16 +36,18 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(ProductLoaded(
         products: [...existingProducts, ...newProducts],
         hasReachedMax: hasReachedMax,
-        isPaginating: false, // ✅ Stop showing shimmer after new products load
       ));
 
       if (newProducts.isNotEmpty) page++;
-    } catch (_) {
+    } catch (error) {
       emit(ProductLoaded(
         products: existingProducts,
         hasReachedMax: hasReachedMax,
-        isPaginating: false, // ✅ Stop shimmer even if API fails
       ));
     }
+  }
+
+  EventTransformer<T> debounce<T>(Duration duration) {
+    return (events, mapper) => events.debounceTime(duration).flatMap(mapper);
   }
 }
