@@ -3,24 +3,15 @@
 ![Flutter](https://img.shields.io/badge/Flutter-3.4.4-blue?style=flat-square&logo=flutter&logoColor=white)  
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)  
 ![Build](https://img.shields.io/badge/Build-Passing-brightgreen?style=flat-square)  
-![Figma](https://img.shields.io/badge/Design-Figma-red?style=flat-square&logo=figma&logoColor=white)  
-![Supabase](https://img.shields.io/badge/Supabase-Authentication-brightgreen?style=flat-square&logo=supabase)
 
-**My Wonder App** is a proprietary, cross-platform mobile application developed by **Acumensa**, designed to enhance IoT device integration. 🌐 This app bridges the gap between the **My Wonder Pod** and your smartphone, delivering powerful features through **state-of-the-art Flutter technology**.
-
----  
-
-## 🎨 Design Reference
-
-Explore the meticulously crafted UI/UX on [Figma](https://www.figma.com/design/hiyr0iiTzdOCUlPDyr3XuS/%5BFor-review%5D-My-Wonder?node-id=5-2&t=4G6xKr5y4LSu9LUs-1).
+**Hava Havai** Shopping Cart is a Flutter-based app for seamless **e-commerce** experiences. 🛒 It features real-time cart updates, discount calculations, and smooth pagination using **BLoC** or **Riverpod**. With clean architecture and modular design, it ensures performance and scalability. 🚀
 
 ---  
 
 ## ✨ Features
 
-- **Seamless Authentication**: Powered by [Supabase](https://supabase.io/).
+- **Seamless API Calls**: Make effective & fast API calls.
 - **Modern State Management**: Leveraging the BLoC pattern for efficiency.
-- **IoT Protocol Integration**: Supports **HTTPv2** for smooth device communication.
 - **Error-Handling States**: Provides a resilient user experience.
 - **Animations**: Stunning micro-interactions using **Lottie**.
 - **Responsive UI**: Designed for exceptional usability across all device sizes.
@@ -32,11 +23,11 @@ Explore the meticulously crafted UI/UX on [Figma](https://www.figma.com/design/h
 | Aspect              | Technology           | Description                      |  
 |---------------------|----------------------|----------------------------------|  
 | **Framework**       | [Flutter](https://flutter.dev)   | Cross-platform mobile development. |  
-| **Authentication**  | [Supabase](https://supabase.io/) | User login and sign-up management. |  
-| **State Management**| [Flutter BLoC](https://bloclibrary.dev/) | Simplified state handling.       |  
+| **Animated-Splash** | [Supabase](https://pub.dev/packages/animated_splash_screen) | Animated & Responsive Splash UI |  
+| **State Management**| [Flutter BLoC](https://bloclibrary.dev/) | Simplified state handling. |  
 | **Networking**      | [Dio](https://pub.dev/packages/dio) | Robust HTTP client.             |  
-| **Routing**         | [GoRouter](https://pub.dev/packages/go_router) | Dynamic navigation.             |  
-| **Local Storage**   | [Hive](https://pub.dev/packages/hive) | Efficient lightweight storage.   |  
+| **Routing**         | [GoRouter](https://pub.dev/packages/go_router) | Dynamic navigation.  |  
+| **Local Storage**   | [Hive](https://pub.dev/packages/hive) | Efficient lightweight storage.|  
 
 ---  
 
@@ -53,8 +44,8 @@ Ensure the following are installed on your system:
 
 1. **Clone the Repository**:
    ```bash  
-   git clone https://github.com/acumensa/my-wonder-app.git  
-   cd my-wonder-app  
+   git clone https://github.com/AmbrishTripathi6974/hava_havai.git  
+   cd hava_havai  
    ```  
 
 2. **Install Dependencies**:
@@ -62,14 +53,7 @@ Ensure the following are installed on your system:
    flutter pub get  
    ```  
 
-3. **Set Up Environment Variables**:  
-   Create a `.env` file in the root directory and add the following:
-   ```env  
-   SUPABASE_URL=https://your-supabase-url.supabase.co  
-   SUPABASE_KEY=your-anon-or-service-key  
-   ```  
-
-4. **Run the App**:
+3. **Run the App**:
    ```bash  
    flutter run  
    ```  
@@ -87,7 +71,6 @@ A glimpse at the major dependencies:
 | `dio`                 | ^5.7.0  | Advanced HTTP client.                    |  
 | `go_router`           | ^14.6.1 | Simplified navigation management.        |  
 | `hive`                | ^2.2.3  | Lightweight local database.              |  
-| `supabase_flutter`    | ^1.2.0  | Authentication and backend integration.  |  
 
 For a complete list, check out the [`pubspec.yaml`](./pubspec.yaml).
 
@@ -98,12 +81,45 @@ For a complete list, check out the [`pubspec.yaml`](./pubspec.yaml).
 The project follows **clean architecture principles** to ensure scalability and maintainability:
 
 ```
-lib/  
-├── core/               # Core utilities and constants  
-├── data/               # Data sources and models  
-├── features/           # App features grouped by functionality  
-├── presentation/       # UI layers (widgets and screens)  
-└── main.dart           # App entry point  
+│── lib/
+│   ├── main.dart
+│   ├── app.dart
+│   ├── core/
+│   │   ├── theme.dart
+│   │   ├── constants.dart
+│   │   ├── services/
+│   │   │   ├── api_service.dart  # Handles API calls
+│   │   │   ├── local_storage.dart  # Handles local storage (cart persistence)
+│   ├── models/
+│   │   ├── product_model.dart  # Product model
+│   │   ├── cart_model.dart  # Cart model
+│   ├── blocs/
+│   │   ├── product/
+│   │   │   ├── product_bloc.dart
+│   │   │   ├── product_event.dart
+│   │   │   ├── product_state.dart
+│   │   ├── cart/
+│   │   │   ├── cart_bloc.dart
+│   │   │   ├── cart_event.dart
+│   │   │   ├── cart_state.dart
+│   ├── repositories/
+│   │   ├── product_repository.dart  # Fetch products from API
+│   │   ├── cart_repository.dart  # Manages cart logic
+│   ├── views/
+│   │   ├── home_screen.dart  # Entry point with navigation
+│   │   ├── product_list_screen.dart  # Displays products
+│   │   ├── product_detail_screen.dart  # Product details page
+│   │   ├── cart_screen.dart  # Cart page with items
+│   ├── widgets/
+│   │   ├── product_tile.dart  # UI component for product list item
+│   │   ├── cart_tile.dart  # UI component for cart list item
+│   │   ├── custom_button.dart  # Reusable button component
+│   │   ├── loading_indicator.dart  # Loading widget
+│   ├── test/
+│── pubspec.yaml
+│── assets/
+
+
 ```  
 
 ---  
@@ -114,17 +130,10 @@ lib/
 
 ---  
 
-## 🌐 Acumensa
+## 🌐 Hava Havai
 
-This application is an intellectual property of **Acumensa** and is not open-source. Unauthorized duplication, sharing, or modification is prohibited.
+This application is an intellectual property of **Hava Havai** and is not open-source. Unauthorized duplication, sharing, or modification is prohibited.
 
----  
+---   
 
-### 👥 Contributors
-
-- **Project Owner**: Acumensa Team
-- **Lead Developer**: Arya Pratap Singh | [Working Branch](https://github.com/AcumensaDev/MyWonderApp/tree/latest-release)
-
----  
-
-Made with 💙 by **Acumensa**.  
+Made with 💙 by **Ambrish**.  
