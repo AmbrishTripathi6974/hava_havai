@@ -35,16 +35,16 @@ class CartTile extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
-            blurRadius: 6,
-            spreadRadius: 2,
-            offset: const Offset(0, 3),
+            blurRadius: 5,
+            spreadRadius: 1,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          /// Product Image (Cached)
+          /// Product Image
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: CachedNetworkImage(
@@ -53,27 +53,25 @@ class CartTile extends StatelessWidget {
               height: 80,
               fit: BoxFit.cover,
               placeholder: (context, url) => Image.asset(
-                'assets/images/placeholder.png',
-                width: 80,
-                height: 80,
-                fit: BoxFit.cover,
-              ),
+                  'assets/images/placeholder.png',
+                  width: 80,
+                  height: 80,
+                  fit: BoxFit.cover),
               errorWidget: (context, url, error) => Image.asset(
-                'assets/images/placeholder.png',
-                width: 80,
-                height: 80,
-                fit: BoxFit.cover,
-              ),
+                  'assets/images/placeholder.png',
+                  width: 80,
+                  height: 80,
+                  fit: BoxFit.cover),
             ),
           ),
           const SizedBox(width: 14),
 
-          /// Product Details (Title, Description, Price & Quantity Row)
+          /// Product Details
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                /// Title & Remove Button Row
+                /// Title & Remove Button
                 Row(
                   children: [
                     Expanded(
@@ -88,39 +86,30 @@ class CartTile extends StatelessWidget {
                         ),
                       ),
                     ),
-
-                    /// Remove Button (X)
                     GestureDetector(
                       onTap: onRemove,
-                      child: const Icon(
-                        Icons.close,
-                        size: 20,
-                        color: Colors.grey,
-                      ),
+                      child:
+                          const Icon(Icons.close, size: 20, color: Colors.grey),
                     ),
                   ],
                 ),
 
-                /// Product Description
+                /// Description
                 Text(
                   description,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    color: Colors.grey.shade600,
-                  ),
+                      fontSize: 12, color: Colors.grey.shade600),
                 ),
-
                 const SizedBox(height: 6),
 
-                /// Price & Quantity Row
+                /// Price & Quantity Selector
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    /// Price
                     Text(
-                      '\$${price.toStringAsFixed(2)}',
+                      '\₹${price.toStringAsFixed(2)}',
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -128,52 +117,50 @@ class CartTile extends StatelessWidget {
                       ),
                     ),
 
-                    /// Quantity Selector
+                    /// Quantity Control
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 4, vertical: 2),
+                      padding: const EdgeInsets.all(1),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(60),
+                        borderRadius: BorderRadius.circular(80),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          /// Decrease Button (-)
-                          IconButton(
-                            onPressed: onDecrease,
-                            icon: const Icon(Icons.remove, size: 14),
-                            color: Colors.black,
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(
-                                minWidth: 14, minHeight: 14),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(80),
+                            ),
+                            child: IconButton(
+                              onPressed: onDecrease,
+                              icon: const Icon(Icons.remove, size: 18),
+                              color: Colors.black,
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(
+                                  minWidth: 20, minHeight: 20),
+                            ),
                           ),
-
-                          /// Quantity Count
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Text(
                               quantity.toString(),
                               style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                              ),
+                                  fontSize: 14, fontWeight: FontWeight.w500),
                             ),
                           ),
-
-                          /// Increase Button (+)
                           Container(
                             decoration: BoxDecoration(
                               color: Colors.green,
-                              borderRadius: BorderRadius.circular(60),
+                              borderRadius: BorderRadius.circular(80),
                             ),
                             child: IconButton(
                               onPressed: onIncrease,
                               icon: const Icon(Icons.add,
-                                  size: 14, color: Colors.white),
+                                  size: 18, color: Colors.white),
                               padding: EdgeInsets.zero,
                               constraints: const BoxConstraints(
-                                  minWidth: 14, minHeight: 14),
+                                  minWidth: 28, minHeight: 28),
                             ),
                           ),
                         ],
