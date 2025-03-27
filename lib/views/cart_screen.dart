@@ -92,7 +92,7 @@ class CartScreen extends StatelessWidget {
               Text(
                 "₹${totalPrice.toStringAsFixed(2)}",
                 style: GoogleFonts.poppins(
-                  fontSize: 22,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
