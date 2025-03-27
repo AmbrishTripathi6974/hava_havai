@@ -28,8 +28,7 @@ class CartScreen extends StatelessWidget {
                 ? const Center(
                     child: Text(
                       "Your cart is empty!",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   )
                 : Column(
@@ -46,25 +45,19 @@ class CartScreen extends StatelessWidget {
                               price: item.price,
                               quantity: item.quantity,
                               onRemove: () {
-                                context
-                                    .read<CartBloc>()
-                                    .add(RemoveFromCart(item));
+                                context.read<CartBloc>().add(RemoveFromCart(item));
                               },
                               onIncrease: () {
-                                context
-                                    .read<CartBloc>()
-                                    .add(IncreaseQuantity(item));
+                                context.read<CartBloc>().add(IncreaseQuantity(item));
                               },
                               onDecrease: () {
-                                context
-                                    .read<CartBloc>()
-                                    .add(DecreaseQuantity(item));
+                                context.read<CartBloc>().add(DecreaseQuantity(item));
                               },
                             );
                           },
                         ),
                       ),
-                      _buildBottomSection(context, state.totalPrice),
+                      _buildBottomSection(context, state.totalPrice, state.cartItems.length),
                     ],
                   );
           } else {
@@ -75,52 +68,62 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomSection(BuildContext context, double totalPrice) {
+  Widget _buildBottomSection(BuildContext context, double totalPrice, int itemCount) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade300,
-            blurRadius: 6,
-            spreadRadius: 1,
-          ),
-        ],
+        color: Colors.pink.shade50, // Light pink background
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
       ),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Total:",
-                style: GoogleFonts.poppins(
-                    fontSize: 16, fontWeight: FontWeight.w600),
+                "Amount Price",
+                style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black54),
               ),
+              const SizedBox(height: 4),
               Text(
-                "\$${totalPrice.toStringAsFixed(2)}",
+                "₹${totalPrice.toStringAsFixed(2)}",
                 style: GoogleFonts.poppins(
-                  fontSize: 18,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.orange,
+                  color: Colors.black,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+              backgroundColor: Colors.pink, // Pink button color
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
             ),
-            child: Text(
-              "Checkout",
-              style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white),
+            child: Row(
+              children: [
+                Text(
+                  "Check Out",
+                  style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+                ),
+                const SizedBox(width: 8),
+                CircleAvatar(
+                  radius: 10,
+                  backgroundColor: Colors.white,
+                  child: Text(
+                    itemCount.toString(),
+                    style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.pink),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

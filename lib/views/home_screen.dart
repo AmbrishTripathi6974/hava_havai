@@ -93,36 +93,39 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.pinkAccent.shade100,
         elevation: 0,
         actions: [
-          IconButton(
-            icon: BlocSelector<CartBloc, CartState, int>(
-              selector: (state) =>
-                  (state is CartLoaded) ? state.cartItems.length : 0,
-              builder: (context, itemCount) {
-                return Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    const Icon(Icons.shopping_cart, size: 28),
-                    if (itemCount > 0)
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.red),
-                          child: Text(
-                            itemCount.toString(),
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.white),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: BlocSelector<CartBloc, CartState, int>(
+                selector: (state) =>
+                    (state is CartLoaded) ? state.cartItems.length : 0,
+                builder: (context, itemCount) {
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      const Icon(Icons.shopping_cart_rounded, size: 28),
+                      if (itemCount > 0)
+                        Positioned(
+                          right: 0,
+                          top: -8,
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.red),
+                            child: Text(
+                              itemCount.toString(),
+                              style: const TextStyle(
+                                  fontSize: 10, color: Colors.white),
+                            ),
                           ),
                         ),
-                      ),
-                  ],
-                );
-              },
+                    ],
+                  );
+                },
+              ),
+              onPressed: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => const CartScreen())),
             ),
-            onPressed: () => Navigator.push(
-                context, MaterialPageRoute(builder: (_) => const CartScreen())),
           ),
         ],
       ),
