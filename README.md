@@ -44,8 +44,8 @@ Ensure the following are installed on your system:
 
 1. **Clone the Repository**:
    ```bash  
-   git clone https://github.com/acumensa/my-wonder-app.git  
-   cd my-wonder-app  
+   git clone https://github.com/AmbrishTripathi6974/hava_havai.git  
+   cd hava_havai  
    ```  
 
 2. **Install Dependencies**:
