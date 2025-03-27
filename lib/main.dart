@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hava_havai/blocs/product/product_bloc.dart';
-import 'package:hava_havai/repositories/product_repository.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hava_havai/app.dart';
 import 'package:hava_havai/views/home_screen.dart';
-import 'package:hava_havai/blocs/cart/cart_bloc.dart';
-import 'package:hava_havai/blocs/cart/cart_event.dart';
+import 'package:hava_havai/models/product_model.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensures proper initialization
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter bindings are initialized
+  await Hive.initFlutter(); // Initialize Hive
+  Hive.registerAdapter(ProductAdapter()); // Register adapter
+
+  if (!Hive.isBoxOpen('product_cache')) {
+    await Hive.openBox<Product>('product_cache'); // ✅ Ensure the box is opened only once
+  }
+
   runApp(const MyApp());
 }
 
@@ -16,29 +21,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(create: (context) => ProductRepository()),
-      ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) {
-              final cartBloc = CartBloc();
-              cartBloc.add(LoadCart()); // Loads cart initially
-              return cartBloc;
-            },
-          ),
-          BlocProvider(
-            create: (context) => ProductBloc(
-              productRepository: context.read<ProductRepository>(),
-            ),
-          ),
-        ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: const HomeScreen(),
-        ),
+    return AppBinding(
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: HomeScreen(),
       ),
     );
   }

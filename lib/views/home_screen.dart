@@ -1,7 +1,13 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/cart_model.dart';
+import '../models/product_model.dart';
 import '../blocs/cart/cart_bloc.dart';
 import '../blocs/cart/cart_event.dart';
 import '../blocs/cart/cart_state.dart';
@@ -11,7 +17,6 @@ import '../blocs/product/product_state.dart';
 import '../widgets/product_tile.dart';
 import '../widgets/shimmer_widget.dart';
 import 'cart_screen.dart';
-import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,17 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
   late ProductBloc productBloc;
   Timer? _debounce;
-  late final Widget _cachedShimmerGrid;
 
   @override
   void initState() {
     super.initState();
     productBloc = context.read<ProductBloc>();
+    _loadCachedProducts(); // ✅ Load products from cache first
     productBloc.add(LoadProducts(products: []));
     _scrollController.addListener(_onScroll);
-
-    /// ✅ Cache the shimmer grid UI
-    _cachedShimmerGrid = const ShimmerLoadingGrid();
   }
 
   void _onScroll() {
@@ -44,10 +46,31 @@ class _HomeScreenState extends State<HomeScreen> {
           _scrollController.position.maxScrollExtent - 100) {
         if (productBloc.state is ProductLoaded &&
             !(productBloc.state as ProductLoaded).hasReachedMax) {
-          productBloc.add(LoadProducts(products: (productBloc.state as ProductLoaded).products));
+          productBloc.add(LoadProducts(
+              products: (productBloc.state as ProductLoaded).products));
         }
       }
     });
+  }
+
+  Future<void> _loadCachedProducts() async {
+    final prefs = await SharedPreferences.getInstance();
+    final productsData = prefs.getString('cached_products');
+
+    if (productsData != null) {
+      final List<dynamic> jsonList = json.decode(productsData);
+      final cachedProducts = jsonList.map((e) => Product.fromJson(e)).toList();
+
+      if (cachedProducts.isNotEmpty) {
+        productBloc.add(LoadProducts(products: cachedProducts));
+      }
+    }
+  }
+
+  Future<void> _saveProductsToCache(List<Product> products) async {
+    final prefs = await SharedPreferences.getInstance();
+    final productsJson = json.encode(products.map((e) => e.toJson()).toList());
+    await prefs.setString('cached_products', productsJson);
   }
 
   @override
@@ -72,7 +95,8 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             icon: BlocSelector<CartBloc, CartState, int>(
-              selector: (state) => (state is CartLoaded) ? state.cartItems.length : 0,
+              selector: (state) =>
+                  (state is CartLoaded) ? state.cartItems.length : 0,
               builder: (context, itemCount) {
                 return Stack(
                   clipBehavior: Clip.none,
@@ -84,10 +108,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         top: 0,
                         child: Container(
                           padding: const EdgeInsets.all(4),
-                          decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.red),
                           child: Text(
                             itemCount.toString(),
-                            style: const TextStyle(fontSize: 12, color: Colors.white),
+                            style: const TextStyle(
+                                fontSize: 12, color: Colors.white),
                           ),
                         ),
                       ),
@@ -95,25 +121,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
-            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CartScreen())),
+            onPressed: () => Navigator.push(
+                context, MaterialPageRoute(builder: (_) => const CartScreen())),
           ),
         ],
       ),
-      body: BlocConsumer<ProductBloc, ProductState>(
-        listener: (context, state) {},
+      body: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
           if (state is ProductInitial || state is ProductShimmer) {
-            return _cachedShimmerGrid; // ✅ Cached shimmer UI
+            /// ✅ Show Lottie animation for first-time loading
+            return Center(
+                child: Lottie.asset(
+              'assets/shimmer.json',
+              height: MediaQuery.of(context).size.height * 0.4,
+              width: MediaQuery.of(context).size.width * 0.5,
+              fit: BoxFit.contain,
+            ));
           } else if (state is ProductLoaded) {
+            _saveProductsToCache(
+                state.products); // ✅ Save fetched products to cache
+
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: GridView.builder(
+              child: MasonryGridView.builder(
                 controller: _scrollController,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.65,
+                gridDelegate:
+                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, // Staggered layout with 2 columns
                 ),
-                itemCount: state.hasReachedMax ? state.products.length : state.products.length + 2,
+                itemCount: state.hasReachedMax
+                    ? state.products.length
+                    : state.products.length + 2,
                 itemBuilder: (context, index) {
                   if (index < state.products.length) {
                     final product = state.products[index];
@@ -122,7 +160,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: product.title,
                       brand: product.brand,
                       oldPrice: product.price,
-                      newPrice: product.price * (1 - (product.discountPercentage / 100)),
+                      newPrice: product.price *
+                          (1 - (product.discountPercentage / 100)),
                       discount: product.discountPercentage,
                       onAddToCart: () {
                         context.read<CartBloc>().add(
@@ -132,7 +171,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   imageUrl: product.thumbnail,
                                   title: product.title,
                                   description: product.brand,
-                                  price: product.price * (1 - (product.discountPercentage / 100)),
+                                  price: product.price *
+                                      (1 - (product.discountPercentage / 100)),
                                   quantity: 1,
                                 ),
                               ),
@@ -140,13 +180,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     );
                   } else {
-                    return const ShimmerLoadingGrid(itemCount: 2, isPaginating: true);
+                    /// ✅ Show shimmer only during pagination
+                    return const ShimmerLoadingGrid(isPaginating: true);
                   }
                 },
               ),
             );
           } else {
-            return const Center(child: Text("No products available", style: TextStyle(fontSize: 16)));
+            return const Center(
+                child: Text("No products available",
+                    style: TextStyle(fontSize: 16)));
           }
         },
       ),

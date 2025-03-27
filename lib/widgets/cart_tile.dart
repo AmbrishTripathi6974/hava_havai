@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CartTile extends StatelessWidget {
   final String imageUrl;
@@ -43,22 +44,26 @@ class CartTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          /// Product Image
+          /// Product Image (Cached)
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              imageUrl,
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
               width: 80,
               height: 80,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset(
-                  'assets/images/placeholder.png',
-                  width: 80,
-                  height: 80,
-                  fit: BoxFit.cover,
-                );
-              },
+              placeholder: (context, url) => Image.asset(
+                'assets/images/placeholder.png',
+                width: 80,
+                height: 80,
+                fit: BoxFit.cover,
+              ),
+              errorWidget: (context, url, error) => Image.asset(
+                'assets/images/placeholder.png',
+                width: 80,
+                height: 80,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           const SizedBox(width: 14),

@@ -1,19 +1,20 @@
 import 'dart:convert';
 import 'dart:isolate';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/product_model.dart';
 
 class ProductRepository {
+  final Dio _dio = Dio();
   final String baseUrl = "https://dummyjson.com/products";
   final String cacheKey = "cached_products";
 
   Future<List<Product>> fetchProducts(int page, int pageSize) async {
     try {
-      final response = await http.get(Uri.parse("$baseUrl?limit=$pageSize&skip=${page * pageSize}"));
+      final response = await _dio.get("$baseUrl", queryParameters: {"limit": pageSize, "skip": page * pageSize});
+      
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        List<Product> products = (data["products"] as List).map((e) => Product.fromJson(e)).toList();
+        List<Product> products = (response.data["products"] as List).map((e) => Product.fromJson(e)).toList();
 
         // Cache products efficiently
         _cacheProducts(products);

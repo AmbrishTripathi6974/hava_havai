@@ -2,38 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerLoadingGrid extends StatelessWidget {
-  final int itemCount;
   final bool isPaginating;
 
-  const ShimmerLoadingGrid({
-    super.key,
-    this.itemCount = 6,
-    this.isPaginating = false,
-  });
+  const ShimmerLoadingGrid({super.key, this.isPaginating = false});
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      shrinkWrap: true,
-      physics: isPaginating ? const NeverScrollableScrollPhysics() : const BouncingScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,  // 2 items per row
-        childAspectRatio: 0.65, // Aspect ratio matching real cards
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-      itemCount: itemCount, // Show 6 shimmer items
-      itemBuilder: (context, index) => Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
+    final double cardWidth = MediaQuery.of(context).size.width * 0.45;
+    final double cardHeight = cardWidth * 1.4;
+
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Container(
+          width: cardWidth,
+          height: cardHeight,
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
           ),
-          height: 180,  // Set a height
-          width: double.infinity,  // Make it fill the grid cell
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: cardHeight * 0.6,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                height: 15,
+                width: cardWidth * 0.6,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+              const SizedBox(height: 5),
+              Container(
+                height: 15,
+                width: cardWidth * 0.4,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

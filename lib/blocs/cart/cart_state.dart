@@ -15,4 +15,7 @@ class CartLoaded extends CartState {
   List<CartItem> get items => cartItems; // Getter for cart items
 }
 
-class CartError extends CartState {}
+class CartError extends CartState {
+  final String message;
+  CartError(this.message);
+}
