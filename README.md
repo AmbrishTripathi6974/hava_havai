@@ -3,8 +3,6 @@
 ![Flutter](https://img.shields.io/badge/Flutter-3.4.4-blue?style=flat-square&logo=flutter&logoColor=white)  
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)  
 ![Build](https://img.shields.io/badge/Build-Passing-brightgreen?style=flat-square)  
-![Figma](https://img.shields.io/badge/Design-Figma-red?style=flat-square&logo=figma&logoColor=white)  
-![Supabase](https://img.shields.io/badge/Supabase-Authentication-brightgreen?style=flat-square&logo=supabase)
 
 **Hava Havai** Shopping Cart is a Flutter-based app for seamless **e-commerce** experiences. 🛒 It features real-time cart updates, discount calculations, and smooth pagination using **BLoC** or **Riverpod**. With clean architecture and modular design, it ensures performance and scalability. 🚀
 
@@ -55,14 +53,7 @@ Ensure the following are installed on your system:
    flutter pub get  
    ```  
 
-3. **Set Up Environment Variables**:  
-   Create a `.env` file in the root directory and add the following:
-   ```env  
-   SUPABASE_URL=https://your-supabase-url.supabase.co  
-   SUPABASE_KEY=your-anon-or-service-key  
-   ```  
-
-4. **Run the App**:
+3. **Run the App**:
    ```bash  
    flutter run  
    ```  
@@ -106,17 +97,10 @@ lib/
 
 ---  
 
-## 🌐 Acumensa
+## 🌐 Hava Havai
 
-This application is an intellectual property of **Acumensa** and is not open-source. Unauthorized duplication, sharing, or modification is prohibited.
+This application is an intellectual property of **Hava Havai** and is not open-source. Unauthorized duplication, sharing, or modification is prohibited.
 
----  
+---   
 
-### 👥 Contributors
-
-- **Project Owner**: Acumensa Team
-- **Lead Developer**: Arya Pratap Singh | [Working Branch](https://github.com/AcumensaDev/MyWonderApp/tree/latest-release)
-
----  
-
-Made with 💙 by **Acumensa**.  
+Made with 💙 by **Ambrish**.  
