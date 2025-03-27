@@ -6,21 +6,14 @@
 ![Figma](https://img.shields.io/badge/Design-Figma-red?style=flat-square&logo=figma&logoColor=white)  
 ![Supabase](https://img.shields.io/badge/Supabase-Authentication-brightgreen?style=flat-square&logo=supabase)
 
-**My Wonder App** is a proprietary, cross-platform mobile application developed by **Acumensa**, designed to enhance IoT device integration. 🌐 This app bridges the gap between the **My Wonder Pod** and your smartphone, delivering powerful features through **state-of-the-art Flutter technology**.
-
----  
-
-## 🎨 Design Reference
-
-Explore the meticulously crafted UI/UX on [Figma](https://www.figma.com/design/hiyr0iiTzdOCUlPDyr3XuS/%5BFor-review%5D-My-Wonder?node-id=5-2&t=4G6xKr5y4LSu9LUs-1).
+**Hava Havai** Shopping Cart is a Flutter-based app for seamless **e-commerce** experiences. 🛒 It features real-time cart updates, discount calculations, and smooth pagination using **BLoC** or **Riverpod**. With clean architecture and modular design, it ensures performance and scalability. 🚀
 
 ---  
 
 ## ✨ Features
 
-- **Seamless Authentication**: Powered by [Supabase](https://supabase.io/).
+- **Seamless API Calls**: Make effective & fast API calls.
 - **Modern State Management**: Leveraging the BLoC pattern for efficiency.
-- **IoT Protocol Integration**: Supports **HTTPv2** for smooth device communication.
 - **Error-Handling States**: Provides a resilient user experience.
 - **Animations**: Stunning micro-interactions using **Lottie**.
 - **Responsive UI**: Designed for exceptional usability across all device sizes.
@@ -32,11 +25,11 @@ Explore the meticulously crafted UI/UX on [Figma](https://www.figma.com/design/h
 | Aspect              | Technology           | Description                      |  
 |---------------------|----------------------|----------------------------------|  
 | **Framework**       | [Flutter](https://flutter.dev)   | Cross-platform mobile development. |  
-| **Authentication**  | [Supabase](https://supabase.io/) | User login and sign-up management. |  
-| **State Management**| [Flutter BLoC](https://bloclibrary.dev/) | Simplified state handling.       |  
+| **Animated-Splash** | [Supabase](https://pub.dev/packages/animated_splash_screen) | Animated & Responsive Splash UI |  
+| **State Management**| [Flutter BLoC](https://bloclibrary.dev/) | Simplified state handling. |  
 | **Networking**      | [Dio](https://pub.dev/packages/dio) | Robust HTTP client.             |  
-| **Routing**         | [GoRouter](https://pub.dev/packages/go_router) | Dynamic navigation.             |  
-| **Local Storage**   | [Hive](https://pub.dev/packages/hive) | Efficient lightweight storage.   |  
+| **Routing**         | [GoRouter](https://pub.dev/packages/go_router) | Dynamic navigation.  |  
+| **Local Storage**   | [Hive](https://pub.dev/packages/hive) | Efficient lightweight storage.|  
 
 ---  
 
@@ -87,7 +80,6 @@ A glimpse at the major dependencies:
 | `dio`                 | ^5.7.0  | Advanced HTTP client.                    |  
 | `go_router`           | ^14.6.1 | Simplified navigation management.        |  
 | `hive`                | ^2.2.3  | Lightweight local database.              |  
-| `supabase_flutter`    | ^1.2.0  | Authentication and backend integration.  |  
 
 For a complete list, check out the [`pubspec.yaml`](./pubspec.yaml).
 
