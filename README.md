@@ -81,12 +81,45 @@ For a complete list, check out the [`pubspec.yaml`](./pubspec.yaml).
 The project follows **clean architecture principles** to ensure scalability and maintainability:
 
 ```
-lib/  
-├── core/               # Core utilities and constants  
-├── data/               # Data sources and models  
-├── features/           # App features grouped by functionality  
-├── presentation/       # UI layers (widgets and screens)  
-└── main.dart           # App entry point  
+│── lib/
+│   ├── main.dart
+│   ├── app.dart
+│   ├── core/
+│   │   ├── theme.dart
+│   │   ├── constants.dart
+│   │   ├── services/
+│   │   │   ├── api_service.dart  # Handles API calls
+│   │   │   ├── local_storage.dart  # Handles local storage (cart persistence)
+│   ├── models/
+│   │   ├── product_model.dart  # Product model
+│   │   ├── cart_model.dart  # Cart model
+│   ├── blocs/
+│   │   ├── product/
+│   │   │   ├── product_bloc.dart
+│   │   │   ├── product_event.dart
+│   │   │   ├── product_state.dart
+│   │   ├── cart/
+│   │   │   ├── cart_bloc.dart
+│   │   │   ├── cart_event.dart
+│   │   │   ├── cart_state.dart
+│   ├── repositories/
+│   │   ├── product_repository.dart  # Fetch products from API
+│   │   ├── cart_repository.dart  # Manages cart logic
+│   ├── views/
+│   │   ├── home_screen.dart  # Entry point with navigation
+│   │   ├── product_list_screen.dart  # Displays products
+│   │   ├── product_detail_screen.dart  # Product details page
+│   │   ├── cart_screen.dart  # Cart page with items
+│   ├── widgets/
+│   │   ├── product_tile.dart  # UI component for product list item
+│   │   ├── cart_tile.dart  # UI component for cart list item
+│   │   ├── custom_button.dart  # Reusable button component
+│   │   ├── loading_indicator.dart  # Loading widget
+│   ├── test/
+│── pubspec.yaml
+│── assets/
+
+
 ```  
 
 ---  
